@@ -7,7 +7,6 @@ import {
   BrainCircuit,
   Database,
   Layout,
-  ArrowRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -99,9 +98,9 @@ export default function Services() {
               key={point}
               className="type-caption inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-white/70"
             >
-              <ArrowRight
-                className="h-3.5 w-3.5 shrink-0 text-accent/80"
-                strokeWidth={2}
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent/80 shadow-[0_0_6px_rgba(112,255,216,0.35)]"
               />
               {point}
             </li>

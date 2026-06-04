@@ -149,11 +149,10 @@ export default function Home() {
 
         <Section
           id="contact"
-          className="snap-section section-surface flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
+          className="snap-section section-surface flex flex-col items-center justify-center gap-10 px-4 py-14 pb-[max(2rem,env(safe-area-inset-bottom))] md:gap-12 md:px-12 md:py-16"
         >
-          <div className="flex w-full flex-col items-center md:flex-1 md:justify-center">
-            <div className="max-w-2xl text-center">
-              <ScrollStagger stagger={0.12}>
+          <div className="max-w-2xl text-center">
+            <ScrollStagger stagger={0.12} once>
                 <ScrollStaggerItem>
                   <p className="type-label mb-4 text-accent">Contact</p>
                 </ScrollStaggerItem>
@@ -195,10 +194,9 @@ export default function Home() {
                     </p>
                   </div>
                 </ScrollStaggerItem>
-              </ScrollStagger>
-            </div>
+            </ScrollStagger>
           </div>
-          <footer className="type-label shrink-0 pt-8 text-center text-muted">
+          <footer className="type-caption shrink-0 border-t border-white/[0.06] pt-6 text-center text-white/35">
             © {new Date().getFullYear()} SwiftSolve. All rights reserved.
           </footer>
         </Section>

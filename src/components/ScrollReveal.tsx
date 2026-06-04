@@ -48,13 +48,15 @@ export function ScrollStagger({
   children,
   className = "",
   stagger = 0.09,
+  once = false,
 }: {
   children: ReactNode;
   className?: string;
   stagger?: number;
+  once?: boolean;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-12% 0px" });
+  const isInView = useInView(ref, { once, margin: "-12% 0px" });
 
   return (
     <motion.div

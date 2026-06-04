@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHeroInView } from "@/components/HeroInView";
 
 const links = [
@@ -18,23 +18,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { pastHero } = useHeroInView();
-  const wasAtHero = useRef(true);
-  const hasLeftHero = useRef(false);
-  const [entranceKey, setEntranceKey] = useState(0);
-
-  const navHidden = { opacity: 0, y: -16 };
-  const navVisible = { opacity: 1, y: 0 };
-
-  useEffect(() => {
-    if (pastHero && wasAtHero.current) {
-      hasLeftHero.current = true;
-    }
-    if (!pastHero && hasLeftHero.current) {
-      setEntranceKey((key) => key + 1);
-    }
-    wasAtHero.current = !pastHero;
-  }, [pastHero]);
+  const { navScrim } = useHeroInView();
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -46,17 +30,21 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        key={entranceKey}
-        initial={navHidden}
-        animate={navVisible}
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8, ease }}
-        className={`fixed inset-x-0 top-0 z-50 pt-[max(0.75rem,env(safe-area-inset-top))] transition-[background-color,border-color,backdrop-filter,-webkit-backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          pastHero
-            ? "border-b border-white/[0.06] bg-black/40 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent backdrop-blur-none"
-        }`}
+        className="fixed inset-x-0 top-0 z-50 pt-[max(0.75rem,env(safe-area-inset-top))]"
       >
-        <div className="flex h-14 items-center justify-between px-4 sm:px-6 md:h-16 md:px-12">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 border-b backdrop-blur-md"
+          style={{
+            opacity: navScrim,
+            backgroundColor: "rgba(0, 0, 0, 0.4)",
+            borderColor: "rgba(255, 255, 255, 0.06)",
+          }}
+        />
+        <div className="relative z-10 flex h-14 items-center justify-between px-4 sm:px-6 md:h-16 md:px-12">
           <a
             href="#"
             className="logo-wordmark shrink-0 text-lg font-semibold leading-none tracking-tight transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-80 md:text-xl"

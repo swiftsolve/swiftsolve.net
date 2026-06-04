@@ -13,26 +13,31 @@ import {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Hero bottom above this (px) => navbar uses compact / glass styles. */
+/** Hero bottom above this (px) => navbar glass fully applied. */
 const NAV_PAST_HERO_THRESHOLD = 80;
-const NAV_SCROLL_THRESHOLD = 80;
+const NAV_SCROLL_FADE_DISTANCE = 140;
+const NAV_HERO_FADE_DISTANCE = 120;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
 type HeroInViewValue = {
   /** Hero reveal animations (intersection-based). */
   visible: boolean;
-  /** Navbar glass background (scroll / hero bottom). */
-  pastHero: boolean;
+  /** Navbar glass intensity from 0 (transparent) to 1 (full glass). */
+  navScrim: number;
   reduceMotion: boolean;
 };
 
 const HeroInViewContext = createContext<HeroInViewValue>({
   visible: true,
-  pastHero: false,
+  navScrim: 0,
   reduceMotion: false,
 });
 
-function usePastHero(targetRef: RefObject<HTMLElement | null>) {
-  const [pastHero, setPastHero] = useState(false);
+function useNavScrim(targetRef: RefObject<HTMLElement | null>) {
+  const [navScrim, setNavScrim] = useState(0);
 
   useEffect(() => {
     const el = targetRef.current;
@@ -40,10 +45,18 @@ function usePastHero(targetRef: RefObject<HTMLElement | null>) {
 
     const update = () => {
       const bottom = el.getBoundingClientRect().bottom;
-      setPastHero(
-        window.scrollY > NAV_SCROLL_THRESHOLD ||
-          bottom <= NAV_PAST_HERO_THRESHOLD,
+      const fromScroll = clamp(
+        window.scrollY / NAV_SCROLL_FADE_DISTANCE,
+        0,
+        1,
       );
+      const fromHero = clamp(
+        (NAV_PAST_HERO_THRESHOLD + NAV_HERO_FADE_DISTANCE - bottom) /
+          NAV_HERO_FADE_DISTANCE,
+        0,
+        1,
+      );
+      setNavScrim(Math.max(fromScroll, fromHero));
     };
 
     update();
@@ -55,7 +68,7 @@ function usePastHero(targetRef: RefObject<HTMLElement | null>) {
     };
   }, [targetRef]);
 
-  return pastHero;
+  return navScrim;
 }
 
 export function HeroInViewProvider({
@@ -66,14 +79,14 @@ export function HeroInViewProvider({
   children: ReactNode;
 }) {
   const inView = useInView(targetRef, { once: false, margin: "-10% 0px" });
-  const pastHero = usePastHero(targetRef);
+  const navScrim = useNavScrim(targetRef);
   const reduceMotion = useReducedMotion() ?? false;
 
   return (
     <HeroInViewContext.Provider
       value={{
         visible: reduceMotion || inView,
-        pastHero,
+        navScrim,
         reduceMotion,
       }}
     >
