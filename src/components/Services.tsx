@@ -72,15 +72,15 @@ export default function Services() {
         Built for production. Designed for people.
       </ScrollHeadline>
 
-      <ScrollReveal y={24} className="mb-12 text-center md:mb-14">
-        <p className="type-body mx-auto max-w-2xl text-muted">
+      <ScrollReveal y={24} className="mb-10 text-center sm:mb-12 md:mb-14">
+        <p className="type-body mx-auto max-w-2xl px-1 text-pretty text-muted sm:px-0">
           Full-stack AI capabilities paired with product design discipline, so
           what you ship looks as refined as it performs.
         </p>
       </ScrollReveal>
 
       <ScrollStagger
-        className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-12"
+        className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 md:gap-x-8 md:gap-y-12 lg:grid-cols-3"
         stagger={0.1}
       >
         {services.map((service) => {

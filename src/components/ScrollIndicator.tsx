@@ -9,7 +9,7 @@ export default function ScrollIndicator() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1.4, duration: 0.8 }}
-      className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 hover:text-white/60 transition-colors"
+      className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 pb-[env(safe-area-inset-bottom)] text-white/30 transition-colors hover:text-white/60 sm:bottom-10"
       aria-label="Scroll to learn more"
     >
       <span className="type-label">

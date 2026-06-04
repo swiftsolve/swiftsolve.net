@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const links = [
   { label: "About", href: "#about" },
@@ -10,31 +12,89 @@ const links = [
 ];
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-white/[0.06] bg-black/20 backdrop-blur-md"
-    >
-      <a
-        href="#"
-        className="type-caption font-semibold tracking-tight transition-opacity hover:opacity-80 logo-wordmark"
+    <>
+      <motion.nav
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-black/40 backdrop-blur-md pt-[max(0.75rem,env(safe-area-inset-top))]"
       >
-        SwiftSolve
-      </a>
-      <ul className="hidden sm:flex items-center gap-8">
-        {links.map((link) => (
-          <li key={link.href}>
-            <a
-              href={link.href}
-              className="type-caption text-muted transition-colors hover:text-accent"
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 md:px-12 md:py-4">
+          <a
+            href="#"
+            className="type-caption font-semibold tracking-tight transition-opacity hover:opacity-80 logo-wordmark"
+            onClick={() => setOpen(false)}
+          >
+            SwiftSolve
+          </a>
+
+          <ul className="hidden items-center gap-8 sm:flex">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="type-caption text-muted transition-colors hover:text-accent"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((prev) => !prev)}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:hidden"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </motion.nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm sm:hidden"
+            onClick={() => setOpen(false)}
+          >
+            <motion.nav
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="flex min-h-full flex-col items-center justify-center gap-2 px-6 pb-[env(safe-area-inset-bottom)] pt-24"
+              onClick={(event) => event.stopPropagation()}
             >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </motion.nav>
+              {links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="type-headline w-full max-w-xs rounded-2xl px-4 py-4 text-center text-foreground transition hover:bg-white/5"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

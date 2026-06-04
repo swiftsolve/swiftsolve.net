@@ -8,7 +8,7 @@ import SkillsMarquee from "@/components/SkillsMarquee";
 
 export default function AboutSection() {
   return (
-    <div className="max-w-4xl text-center">
+    <div className="max-w-4xl px-1 text-center sm:px-0">
       <ScrollReveal delay={0} y={32}>
         <p className="type-label mb-4 text-accent">
           About

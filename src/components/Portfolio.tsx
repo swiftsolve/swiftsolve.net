@@ -202,8 +202,14 @@ export default function Portfolio() {
       onMouseLeave={() => {
         pausedRef.current = false;
       }}
+      onTouchStart={() => {
+        pausedRef.current = true;
+      }}
+      onTouchEnd={() => {
+        pausedRef.current = false;
+      }}
     >
-      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+      <div className="mb-8 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
         <ScrollHeadline className="type-headline">
           Portfolio
         </ScrollHeadline>
@@ -222,7 +228,7 @@ export default function Portfolio() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.35, ease: slideEase }}
-          className={`grid items-stretch gap-7 ${
+          className={`grid items-stretch gap-5 sm:gap-7 ${
             pages[page].length === 2
               ? "grid-cols-1 sm:grid-cols-2"
               : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -270,9 +276,9 @@ export default function Portfolio() {
                     strokeWidth={1.25}
                   />
                 </div>
-                <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <h3 className="type-title mb-3">{item.title}</h3>
-                  <p className="type-caption text-muted">
+                <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
+                  <h3 className="type-title mb-2 sm:mb-3">{item.title}</h3>
+                  <p className="type-caption text-pretty text-muted">
                     {item.description} {item.detail}
                   </p>
                 </div>
@@ -282,12 +288,12 @@ export default function Portfolio() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="mt-10 flex items-center justify-end gap-1">
+      <div className="mt-8 flex items-center justify-center gap-1 sm:mt-10 sm:justify-end">
         <button
           type="button"
           onClick={() => go(page - 1)}
           aria-label="Previous page"
-          className="type-caption flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
+          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -297,7 +303,7 @@ export default function Portfolio() {
             type="button"
             onClick={() => go(i)}
             aria-label={`Page ${i + 1}`}
-            className={`type-caption flex h-9 w-9 items-center justify-center rounded-full transition ${
+            className={`type-caption flex h-11 w-11 items-center justify-center rounded-full transition ${
               page === i
                 ? "bg-white/10 text-foreground"
                 : "text-muted hover:bg-white/5 hover:text-foreground"
@@ -310,7 +316,7 @@ export default function Portfolio() {
           type="button"
           onClick={() => go(page + 1)}
           aria-label="Next page"
-          className="type-caption flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
+          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

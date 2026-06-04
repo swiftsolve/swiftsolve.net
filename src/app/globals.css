@@ -66,6 +66,29 @@ body {
   background-color: #000000;
 }
 
+@media (max-width: 767px) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  .snap-section {
+    min-height: auto;
+    scroll-snap-stop: normal;
+  }
+
+  .snap-section-hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    scroll-snap-stop: always;
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+}
+
 .dark-gradient {
   background-color: #000000;
   background-image:
@@ -180,15 +203,15 @@ body {
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 12%,
-    black 88%,
+    black 26%,
+    black 74%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 12%,
-    black 88%,
+    black 26%,
+    black 74%,
     transparent 100%
   );
 }

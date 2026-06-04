@@ -64,7 +64,7 @@ const COPY_COUNT = 4;
 
 function SkillTag({ label, icon: Icon }: Skill) {
   return (
-    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-white/50">
+    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-white/50 sm:px-3.5">
       <Icon className="h-3.5 w-3.5 shrink-0 text-accent/80" strokeWidth={1.5} />
       {label}
     </span>
@@ -157,7 +157,7 @@ export default function SkillsMarquee() {
   }
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2">
+    <div className="mx-auto w-full max-w-3xl sm:max-w-4xl">
       <div className="skills-marquee-fade overflow-hidden py-1">
         <div className="flex flex-col gap-3">
           {skillRows.map((row, rowIndex) => (

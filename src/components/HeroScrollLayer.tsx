@@ -27,7 +27,7 @@ export default function HeroScrollLayer({
   return (
     <section
       ref={ref}
-      className="snap-section relative flex items-center justify-center overflow-hidden px-6"
+      className="snap-section snap-section-hero relative flex items-center justify-center overflow-hidden px-4 pb-16 pt-24 sm:px-6 sm:pt-28"
     >
       <motion.div
         style={{ y: bgY, opacity: bgOpacity }}
@@ -38,7 +38,7 @@ export default function HeroScrollLayer({
 
       <motion.div
         style={{ opacity: contentOpacity, scale: contentScale, y: contentY }}
-        className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-8 text-center will-change-transform"
+        className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-6 text-center will-change-transform sm:gap-8"
       >
         {children}
       </motion.div>

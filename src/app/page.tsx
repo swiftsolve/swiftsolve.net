@@ -39,7 +39,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="type-body max-w-xl text-center font-light text-white/50"
+            className="type-body max-w-xl px-1 text-pretty text-center font-light text-white/50 sm:px-0"
           >
             We design and ship intelligent products, pairing production-grade AI
             with interfaces people actually want to use.
@@ -49,17 +49,17 @@ export default function Home() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.35, duration: 0.6 }}
-          className="flex gap-4"
+          className="flex w-full max-w-sm flex-col gap-3 px-2 sm:max-w-none sm:w-auto sm:flex-row sm:gap-4 sm:px-0"
         >
           <a
             href="#contact"
-            className="type-caption rounded-full bg-white px-6 py-2.5 font-medium text-black transition hover:bg-white/90"
+            className="type-caption flex min-h-11 items-center justify-center rounded-full bg-white px-6 py-2.5 font-medium text-black transition hover:bg-white/90"
           >
             Start a project
           </a>
           <a
             href="#portfolio"
-            className="type-caption rounded-full border border-white/15 px-6 py-2.5 font-medium text-white/70 transition hover:border-white/30 hover:text-white"
+            className="type-caption flex min-h-11 items-center justify-center rounded-full border border-white/15 px-6 py-2.5 font-medium text-white/70 transition hover:border-white/30 hover:text-white"
           >
             View our work
           </a>
@@ -68,30 +68,30 @@ export default function Home() {
 
       <Section
         id="about"
-        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-6 md:px-12"
+        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <AboutSection />
       </Section>
 
       <Section
         id="portfolio"
-        className="snap-section dark-gradient-portfolio flex flex-col items-center justify-center px-6 md:px-12 py-16"
+        className="snap-section dark-gradient-portfolio flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <Portfolio />
       </Section>
 
       <Section
         id="services"
-        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-6 md:px-12"
+        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <Services />
       </Section>
 
       <Section
         id="contact"
-        className="snap-section dark-gradient flex min-h-[100dvh] flex-col px-6 md:px-12 py-16"
+        className="snap-section dark-gradient flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
       >
-        <div className="flex flex-1 flex-col items-center justify-center w-full">
+        <div className="flex w-full flex-col items-center md:flex-1 md:justify-center">
           <div className="max-w-2xl text-center">
             <ScrollStagger stagger={0.12}>
               <ScrollStaggerItem>
@@ -118,7 +118,7 @@ export default function Home() {
               <ScrollStaggerItem>
                 <a
                   href="mailto:hello@swiftsolve.com"
-                  className="type-caption inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 font-medium text-black transition-all hover:brightness-110"
+                  className="type-caption inline-flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 font-medium text-black transition-all hover:brightness-110 sm:w-auto"
                 >
                   <Mail className="h-4 w-4" strokeWidth={2} />
                   Get in touch
