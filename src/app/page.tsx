@@ -28,9 +28,12 @@ const consultationMailto =
 
 function HeroContent() {
   return (
-    <>
+    <div className="flex w-full flex-col items-center gap-6 sm:gap-8">
       <HeroReveal
+        revealStart={0.62}
+        revealEnd={0.48}
         delay={0.1}
+        y={32}
         className="type-label rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-white/60 backdrop-blur-sm"
       >
         AI Product Studio
@@ -40,18 +43,22 @@ function HeroContent() {
         <AnimatedLogo />
         <HeroReveal
           as="h1"
+          revealStart={0.52}
+          revealEnd={0.36}
           delay={0.95}
-          y={20}
           duration={0.7}
+          y={44}
           className="type-headline max-w-3xl px-1 text-pretty text-white sm:px-0"
         >
           Build production AI software, not just demos.
         </HeroReveal>
         <HeroReveal
           as="p"
+          revealStart={0.46}
+          revealEnd={0.30}
           delay={1.1}
-          y={20}
           duration={0.7}
+          y={40}
           className="type-body max-w-2xl px-1 text-pretty text-center font-light text-white/50 sm:px-0"
         >
           SwiftSolve helps startups and product teams design, build, and deploy
@@ -62,8 +69,10 @@ function HeroContent() {
       </div>
 
       <HeroReveal
+        revealStart={0.40}
+        revealEnd={0.24}
         delay={1.35}
-        y={16}
+        y={36}
         className="flex w-full max-w-sm flex-col gap-3 px-2 sm:max-w-none sm:w-auto sm:flex-row sm:gap-4 sm:px-0"
       >
         <a
@@ -79,7 +88,7 @@ function HeroContent() {
           View selected work
         </a>
       </HeroReveal>
-    </>
+    </div>
   );
 }
 

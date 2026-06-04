@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, type CSSProperties } from "react";
 import {
   ScrollReveal,
   ScrollHeadline,
+  ScrollRevealShell,
 } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -217,6 +218,12 @@ const mobileSlideVariants = {
   exit: (direction: number) => ({ opacity: 0, x: direction * -48 }),
 };
 
+const desktopPageVariants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 56 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -56 }),
+};
+
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const Icon = item.icon;
 
@@ -307,14 +314,22 @@ export default function Portfolio() {
   const [mobileIndex, setMobileIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(1);
   const pausedRef = useRef(false);
+  const [slidesActive, setSlidesActive] = useState(false);
   const totalPages = pages.length;
   const totalItems = allItems.length;
 
-  const goPage = (next: number) => {
-    setPage((next + totalPages) % totalPages);
+  const goPage = (next: number, direction?: number) => {
+    const normalized = (next + totalPages) % totalPages;
+    if (normalized === page) return;
+    setSlideDirection(
+      direction ?? (normalized > page ? 1 : -1),
+    );
+    setSlidesActive(true);
+    setPage(normalized);
   };
 
   const goMobile = (delta: number) => {
+    setSlidesActive(true);
     setSlideDirection(delta > 0 ? 1 : -1);
     setMobileIndex((index) => (index + delta + totalItems) % totalItems);
   };
@@ -328,9 +343,12 @@ export default function Portfolio() {
     const timer = window.setInterval(() => {
       if (!pausedRef.current) {
         if (window.matchMedia("(max-width: 639px)").matches) {
+          setSlidesActive(true);
           setSlideDirection(1);
           setMobileIndex((index) => (index + 1) % totalItems);
         } else {
+          setSlidesActive(true);
+          setSlideDirection(1);
           setPage((p) => (p + 1) % totalPages);
         }
       }
@@ -371,49 +389,54 @@ export default function Portfolio() {
         </ScrollReveal>
       </div>
 
-      <div className="overflow-hidden sm:hidden">
-        <AnimatePresence mode="wait" custom={slideDirection}>
-          <motion.div
-            key={mobileIndex}
-            custom={slideDirection}
-            variants={mobileSlideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.35, ease: slideEase }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.12}
-            onDragEnd={(_, { offset, velocity }) => {
-              if (offset.x < -50 || velocity.x < -400) {
-                goMobile(1);
-              } else if (offset.x > 50 || velocity.x > 400) {
-                goMobile(-1);
-              }
-            }}
-            style={{ touchAction: "pan-y" }}
-          >
-            <PortfolioCard item={allItems[mobileIndex]} />
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      <ScrollRevealShell y={44} className="w-full">
+        <div className="overflow-hidden sm:hidden">
+          <AnimatePresence mode="wait" custom={slideDirection}>
+            <motion.div
+              key={mobileIndex}
+              custom={slideDirection}
+              variants={mobileSlideVariants}
+              initial={slidesActive ? "enter" : false}
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: slideEase }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.12}
+              onDragEnd={(_, { offset, velocity }) => {
+                if (offset.x < -50 || velocity.x < -400) {
+                  goMobile(1);
+                } else if (offset.x > 50 || velocity.x > 400) {
+                  goMobile(-1);
+                }
+              }}
+              style={{ touchAction: "pan-y" }}
+            >
+              <PortfolioCard item={allItems[mobileIndex]} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={page}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.35, ease: slideEase }}
-          className="hidden items-stretch gap-6 sm:grid sm:grid-cols-2 sm:gap-7 lg:gap-10"
-        >
-          {pages[page].map((item) => (
-            <PortfolioCard key={item.title} item={item} />
-          ))}
-        </motion.div>
-      </AnimatePresence>
+        <div className="hidden overflow-hidden sm:block">
+          <AnimatePresence mode="wait" custom={slideDirection}>
+            <motion.div
+              key={page}
+              custom={slideDirection}
+              variants={desktopPageVariants}
+              initial={slidesActive ? "enter" : false}
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4, ease: slideEase }}
+              className="grid sm:grid-cols-2 sm:gap-7 lg:gap-10"
+            >
+              {pages[page].map((item) => (
+                <PortfolioCard key={item.title} item={item} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-      <div className="mt-8 flex items-center justify-center gap-1 sm:mt-10 sm:justify-end">
+        <div className="mt-8 flex items-center justify-center gap-1 sm:mt-10 sm:justify-end">
         <button
           type="button"
           onClick={() => goMobile(-1)}
@@ -424,7 +447,7 @@ export default function Portfolio() {
         </button>
         <button
           type="button"
-          onClick={() => goPage(page - 1)}
+          onClick={() => goPage(page - 1, -1)}
           aria-label="Previous page"
           className="type-caption hidden h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:flex"
         >
@@ -437,6 +460,7 @@ export default function Portfolio() {
               key={item.title}
               type="button"
               onClick={() => {
+                setSlidesActive(true);
                 setSlideDirection(i > mobileIndex ? 1 : -1);
                 setMobileIndex(i);
               }}
@@ -456,7 +480,7 @@ export default function Portfolio() {
             <button
               key={i}
               type="button"
-              onClick={() => goPage(i)}
+              onClick={() => goPage(i, i > page ? 1 : -1)}
               aria-label={`Page ${i + 1}`}
               className={`type-caption flex h-11 w-11 items-center justify-center rounded-full transition ${
                 page === i
@@ -479,13 +503,14 @@ export default function Portfolio() {
         </button>
         <button
           type="button"
-          onClick={() => goPage(page + 1)}
+          onClick={() => goPage(page + 1, 1)}
           aria-label="Next page"
           className="type-caption hidden h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:flex"
         >
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>
+      </ScrollRevealShell>
     </div>
   );
 }

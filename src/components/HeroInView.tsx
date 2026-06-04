@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   createContext,
   useContext,
@@ -10,11 +9,19 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Pixels of scroll before nav glass reaches full opacity. */
-const NAV_FADE_DISTANCE = 120;
+/** After this, hero elements follow scroll instead of timed entrance. */
+const ENTRANCE_HANDOFF_MS = 2500;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -23,6 +30,8 @@ function clamp(value: number, min: number, max: number) {
 function getHeroElement(targetRef: RefObject<HTMLElement | null>) {
   return targetRef.current ?? document.getElementById("hero");
 }
+
+const NAV_FADE_DISTANCE = 120;
 
 function useNavScrim(targetRef: RefObject<HTMLElement | null>) {
   const [navScrim, setNavScrim] = useState(0);
@@ -34,7 +43,6 @@ function useNavScrim(targetRef: RefObject<HTMLElement | null>) {
 
       const top = el.getBoundingClientRect().top;
 
-      // Transparent while the hero is flush with the top of the viewport.
       if (top >= -1) {
         setNavScrim(0);
         return;
@@ -60,18 +68,16 @@ function useNavScrim(targetRef: RefObject<HTMLElement | null>) {
 }
 
 type HeroInViewValue = {
-  /** Hero reveal animations (intersection-based). */
-  visible: boolean;
-  /** Navbar glass intensity from 0 (transparent) to 1 (full glass). */
+  atHeroTop: boolean;
   navScrim: number;
+  heroRef: RefObject<HTMLElement | null>;
+  scrollYProgress: MotionValue<number>;
+  /** Timed entrance on load; scroll-driven hide/reveal after handoff. */
+  scrollLinked: boolean;
   reduceMotion: boolean;
 };
 
-const HeroInViewContext = createContext<HeroInViewValue>({
-  visible: true,
-  navScrim: 0,
-  reduceMotion: false,
-});
+const HeroInViewContext = createContext<HeroInViewValue | null>(null);
 
 export function HeroInViewProvider({
   targetRef,
@@ -80,21 +86,40 @@ export function HeroInViewProvider({
   targetRef: RefObject<HTMLElement | null>;
   children: ReactNode;
 }) {
-  const inView = useInView(targetRef, { once: true, margin: "-10% 0px" });
   const navScrim = useNavScrim(targetRef);
   const reduceMotion = useReducedMotion() ?? false;
-  const [heroActive, setHeroActive] = useState(true);
+  const [atHeroTop, setAtHeroTop] = useState(true);
+  const [scrollLinked, setScrollLinked] = useState(reduceMotion);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    if (value > 0.015) {
+      setScrollLinked(true);
+    }
+  });
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setScrollLinked(true);
+      return;
+    }
+
+    const timeout = window.setTimeout(
+      () => setScrollLinked(true),
+      ENTRANCE_HANDOFF_MS,
+    );
+
+    return () => window.clearTimeout(timeout);
+  }, [reduceMotion]);
 
   useEffect(() => {
     const update = () => {
       const el = getHeroElement(targetRef);
       if (!el) return;
-
-      const { top, bottom, height } = el.getBoundingClientRect();
-      const inHeroByScroll = window.scrollY <= height * 0.9;
-      const inHeroByRect =
-        top < window.innerHeight * 0.25 && bottom > window.innerHeight * 0.4;
-      setHeroActive(inHeroByScroll || inHeroByRect);
+      setAtHeroTop(el.getBoundingClientRect().top >= -6);
     };
 
     update();
@@ -113,8 +138,11 @@ export function HeroInViewProvider({
   return (
     <HeroInViewContext.Provider
       value={{
-        visible: reduceMotion || inView || heroActive,
+        atHeroTop,
         navScrim,
+        heroRef: targetRef,
+        scrollYProgress,
+        scrollLinked,
         reduceMotion,
       }}
     >
@@ -124,37 +152,120 @@ export function HeroInViewProvider({
 }
 
 export function useHeroInView() {
-  return useContext(HeroInViewContext);
+  const ctx = useContext(HeroInViewContext);
+  if (!ctx) {
+    throw new Error("useHeroInView must be used within HeroInViewProvider");
+  }
+  return ctx;
+}
+
+function HeroRevealEntrance({
+  children,
+  className,
+  delay,
+  duration,
+  y,
+  blur,
+  as,
+}: {
+  children: ReactNode;
+  className: string;
+  delay: number;
+  duration: number;
+  y: number;
+  blur: number;
+  as: "div" | "h1" | "p";
+}) {
+  const Component = motion[as] as ElementType;
+
+  return (
+    <Component
+      initial={{ opacity: 0, y, filter: `blur(${blur}px)` }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ delay, duration, ease }}
+      className={className}
+    >
+      {children}
+    </Component>
+  );
+}
+
+function HeroRevealScroll({
+  children,
+  className,
+  revealStart,
+  revealEnd,
+  as,
+}: {
+  children: ReactNode;
+  className: string;
+  revealStart: number;
+  revealEnd: number;
+  as: "div" | "h1" | "p";
+}) {
+  const { scrollYProgress } = useHeroInView();
+  const Component = motion[as] as ElementType;
+
+  const opacity = useTransform(scrollYProgress, [revealEnd, revealStart], [1, 0]);
+
+  return (
+    <Component className={className} style={{ opacity }}>
+      {children}
+    </Component>
+  );
 }
 
 export function HeroReveal({
   children,
   className = "",
+  revealStart,
+  revealEnd,
   delay = 0,
-  y = 12,
   duration = 0.6,
+  y = 12,
+  blur = 8,
   as = "div",
 }: {
   children: ReactNode;
   className?: string;
+  revealStart: number;
+  revealEnd: number;
   delay?: number;
-  y?: number;
   duration?: number;
+  y?: number;
+  blur?: number;
   as?: "div" | "h1" | "p";
 }) {
-  const { visible, reduceMotion } = useHeroInView();
-  const Component = motion[as] as ElementType;
+  const { scrollLinked, reduceMotion } = useHeroInView();
+
+  if (reduceMotion) {
+    const Static = as as ElementType;
+    return <Static className={className}>{children}</Static>;
+  }
+
+  if (!scrollLinked) {
+    return (
+      <HeroRevealEntrance
+        className={className}
+        delay={delay}
+        duration={duration}
+        y={y}
+        blur={blur}
+        as={as}
+      >
+        {children}
+      </HeroRevealEntrance>
+    );
+  }
 
   return (
-    <Component
-      initial={{ opacity: 0, y }}
-      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={
-        reduceMotion ? { duration: 0 } : { delay, duration, ease }
-      }
+    <HeroRevealScroll
       className={className}
+      revealStart={revealStart}
+      revealEnd={revealEnd}
+      as={as}
     >
       {children}
-    </Component>
+    </HeroRevealScroll>
   );
 }
