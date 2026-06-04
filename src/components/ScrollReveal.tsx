@@ -21,22 +21,21 @@ export function ScrollReveal({
   scale?: boolean;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-14% 0px" });
+  const isInView = useInView(ref, { once: false, margin: "-14% 0px" });
+
+  const hidden = {
+    opacity: 0,
+    y,
+    filter: blur ? "blur(12px)" : "blur(0px)",
+    scale: scale ? 0.94 : 1,
+  };
+  const visible = { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 };
 
   return (
     <motion.div
       ref={ref}
-      initial={{
-        opacity: 0,
-        y,
-        filter: blur ? "blur(12px)" : "blur(0px)",
-        scale: scale ? 0.94 : 1,
-      }}
-      animate={
-        isInView
-          ? { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }
-          : undefined
-      }
+      initial={hidden}
+      animate={isInView ? visible : hidden}
       transition={{ duration: 1, delay, ease }}
       className={className}
     >
@@ -55,7 +54,7 @@ export function ScrollStagger({
   stagger?: number;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-12% 0px" });
+  const isInView = useInView(ref, { once: false, margin: "-12% 0px" });
 
   return (
     <motion.div
@@ -112,17 +111,16 @@ export function ScrollHeadline({
   className?: string;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-18% 0px" });
+  const isInView = useInView(ref, { once: false, margin: "-18% 0px" });
+
+  const hidden = { opacity: 0, y: 72, scale: 0.92, filter: "blur(14px)" };
+  const visible = { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" };
 
   return (
     <motion.h2
       ref={ref}
-      initial={{ opacity: 0, y: 72, scale: 0.92, filter: "blur(14px)" }}
-      animate={
-        isInView
-          ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
-          : undefined
-      }
+      initial={hidden}
+      animate={isInView ? visible : hidden}
       transition={{ duration: 1.1, ease }}
       className={className}
     >

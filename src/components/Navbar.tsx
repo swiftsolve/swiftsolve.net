@@ -2,7 +2,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useHeroInView } from "@/components/HeroInView";
 
 const links = [
   { label: "About", href: "#about" },
@@ -15,6 +16,23 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { visible: isHeroInView } = useHeroInView();
+  const wasHeroInView = useRef(false);
+  const hasLeftHero = useRef(false);
+  const [entranceKey, setEntranceKey] = useState(0);
+
+  const navHidden = { opacity: 0, y: -16 };
+  const navVisible = { opacity: 1, y: 0 };
+
+  useEffect(() => {
+    if (!isHeroInView && wasHeroInView.current) {
+      hasLeftHero.current = true;
+    }
+    if (isHeroInView && hasLeftHero.current) {
+      setEntranceKey((key) => key + 1);
+    }
+    wasHeroInView.current = isHeroInView;
+  }, [isHeroInView]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -26,8 +44,9 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
+        key={entranceKey}
+        initial={navHidden}
+        animate={navVisible}
         transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-black/40 backdrop-blur-md pt-[max(0.75rem,env(safe-area-inset-top))]"
       >

@@ -1,20 +1,21 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { type RefObject, type ReactNode } from "react";
 
 export default function HeroScrollLayer({
+  sectionRef,
   background,
   children,
   footer,
 }: {
+  sectionRef: RefObject<HTMLElement | null>;
   background: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
 }) {
-  const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: sectionRef,
     offset: ["start start", "end start"],
   });
 
@@ -26,7 +27,8 @@ export default function HeroScrollLayer({
 
   return (
     <section
-      ref={ref}
+      id="hero"
+      ref={sectionRef}
       className="snap-section snap-section-hero relative flex items-center justify-center overflow-hidden px-4 pb-16 pt-24 sm:px-6 sm:pt-28"
     >
       <motion.div
