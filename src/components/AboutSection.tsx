@@ -24,14 +24,11 @@ export default function AboutSection() {
           engineering, and cloud infrastructure to turn AI concepts into
           reliable software people can use every day.
         </p>
-        <p className="type-body mb-4 text-muted">
-          We work with funded startups, enterprise innovation teams, and product
-          companies shipping AI in finance, healthcare, apparel, infrastructure,
+        <p className="type-body mb-10 text-muted">
+          We&apos;re built for technical founders and product teams who have
+          validated an AI workflow and need to turn it into secure, reliable,
+          production software, typically in finance, healthcare, infrastructure,
           and SaaS.
-        </p>
-        <p className="type-caption mb-10 text-white/40">
-          LLM copilots, RAG systems, computer vision, document AI, automation
-          platforms, and ML infrastructure.
         </p>
       </ScrollReveal>
 

@@ -7,6 +7,7 @@ import {
   BrainCircuit,
   Database,
   Layout,
+  ArrowRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -59,6 +60,14 @@ const services: {
   },
 ];
 
+const startingPoints = [
+  "Build an AI product from concept to launch",
+  "Automate a document-heavy workflow",
+  "Add an LLM copilot to your SaaS",
+  "Deploy computer vision into an operational workflow",
+  "Scale inference and ML infrastructure",
+];
+
 export default function Services() {
   return (
     <div className="max-w-5xl w-full">
@@ -72,12 +81,32 @@ export default function Services() {
         Engagements mapped to real buying needs
       </ScrollHeadline>
 
-      <ScrollReveal y={24} className="mb-10 text-center sm:mb-12 md:mb-14">
+      <ScrollReveal y={24} className="mb-10 text-center sm:mb-12">
         <p className="type-body mx-auto max-w-2xl px-1 text-pretty text-muted sm:px-0">
           Whether you need a full product build, a production LLM workflow, or
-          the infrastructure to scale inference, each service is scoped around
+          the infrastructure to scale inference, each engagement is scoped around
           an outcome your team can ship and measure.
         </p>
+      </ScrollReveal>
+
+      <ScrollReveal y={24} className="mb-12 sm:mb-16">
+        <p className="type-label mb-5 text-center text-white/35">
+          Common starting points
+        </p>
+        <ul className="mx-auto flex max-w-3xl flex-wrap justify-center gap-2.5">
+          {startingPoints.map((point) => (
+            <li
+              key={point}
+              className="type-caption inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-white/70"
+            >
+              <ArrowRight
+                className="h-3.5 w-3.5 shrink-0 text-accent/80"
+                strokeWidth={2}
+              />
+              {point}
+            </li>
+          ))}
+        </ul>
       </ScrollReveal>
 
       <ScrollStagger

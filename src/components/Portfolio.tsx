@@ -25,6 +25,8 @@ type PortfolioItem = {
   title: string;
   tagline: string;
   solution: string;
+  outcome: string;
+  stack: string[];
   delivered: string[];
   status: string;
   domain: string;
@@ -40,6 +42,9 @@ const pages: PortfolioItem[][] = [
         "AI personal finance dashboard for cash-flow forecasting and natural-language insights.",
       solution:
         "Privacy-first finance UI with categorized spending, forecast models, and plain-English answers about transaction data.",
+      outcome:
+        "Turned raw transaction data into plain-English answers users could act on, without spreadsheets or manual tagging.",
+      stack: ["React", "TypeScript", "FastAPI", "Postgres", "LLM APIs"],
       delivered: [
         "Transaction ingestion & categorization",
         "Forecast modeling & trend analysis",
@@ -57,6 +62,9 @@ const pages: PortfolioItem[][] = [
         "Computer vision pipeline for consistent apparel measurements from standard photos.",
       solution:
         "Landmark detection from standard photos, measurement estimates, and an operator review UI for apparel and e-commerce fit teams.",
+      outcome:
+        "Replaced manual tape-measure workflows with consistent, repeatable measurements from a single standard photo.",
+      stack: ["PyTorch", "OpenCV", "FastAPI", "React", "Docker"],
       delivered: [
         "Image capture & detection pipeline",
         "Measurement & grading logic",
@@ -76,6 +84,9 @@ const pages: PortfolioItem[][] = [
         "Queue-driven GPU autoscaling for ML inference and training workloads.",
       solution:
         "Queue-driven Kubernetes GPU scaling that cuts idle compute spend while preserving latency for inference and training workloads.",
+      outcome:
+        "Scaled GPU compute to live queue demand instead of peak provisioning, reducing idle spend without hurting latency.",
+      stack: ["Kubernetes", "Python", "Prometheus", "Terraform", "CUDA"],
       delivered: [
         "Kubernetes & GPU scheduling",
         "Queue-depth autoscaling",
@@ -93,6 +104,9 @@ const pages: PortfolioItem[][] = [
         "Enterprise OCR service for Bengali script at production throughput.",
       solution:
         "GPU-accelerated Bengali OCR on NVIDIA Triton for mixed documents at sub-second throughput in production.",
+      outcome:
+        "Delivered reliable Bengali OCR on real, mixed-quality documents at production throughput, not just clean samples.",
+      stack: ["NVIDIA Triton", "PyTorch", "FastAPI", "Redis", "Docker"],
       delivered: [
         "Document preprocessing & OCR serving",
         "NVIDIA Triton deployment",
@@ -112,6 +126,9 @@ const pages: PortfolioItem[][] = [
         "Clinical imaging tooling with radiologist-first review for 3D volumes.",
       solution:
         "DICOM-to-insight pipeline with anomaly highlighting and a radiologist-first review UI for existing clinical workflows.",
+      outcome:
+        "Gave radiologists a faster review path by surfacing anomalies inside the workflow they already use.",
+      stack: ["Python", "MONAI", "DICOM", "React", "Postgres"],
       delivered: [
         "DICOM ingestion & 3D processing",
         "Anomaly detection & highlighting",
@@ -129,6 +146,9 @@ const pages: PortfolioItem[][] = [
         "Aerial imagery analysis for road condition assessment and maintenance planning.",
       solution:
         "Aerial crack detection, severity scoring, and route prioritization for municipal maintenance and capital planning teams.",
+      outcome:
+        "Helped maintenance teams prioritize repairs from aerial imagery instead of slow, manual road surveys.",
+      stack: ["PyTorch", "GIS", "FastAPI", "React", "PostGIS"],
       delivered: [
         "Aerial imagery ingestion",
         "Crack detection & severity scoring",
@@ -148,6 +168,9 @@ const pages: PortfolioItem[][] = [
         "Scroll-native analytics experiences for executive and operational teams.",
       solution:
         "Scroll-native reporting that connects live data to conclusions, so teams explore trends without analyst bottlenecks.",
+      outcome:
+        "Let non-analysts explore live trends and reach conclusions without waiting on the data team.",
+      stack: ["Next.js", "TypeScript", "D3", "DuckDB", "Python"],
       delivered: [
         "Live data integration",
         "Scroll-native reporting UX",
@@ -165,6 +188,9 @@ const pages: PortfolioItem[][] = [
         "Unified observability for distributed compute and application infrastructure.",
       solution:
         "Real-time cluster metrics, alert orchestration, and trend analysis for proactive capacity planning and incident response.",
+      outcome:
+        "Surfaced capacity and incident signals in real time so teams could act before users noticed problems.",
+      stack: ["Go", "Prometheus", "Grafana", "Kubernetes", "TimescaleDB"],
       delivered: [
         "Distributed metrics collection",
         "Alert orchestration & escalation",
@@ -218,11 +244,23 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           </div>
         </div>
 
-        <p className="type-card-lead mt-6 mb-8 text-pretty text-white/65 sm:mt-7 sm:mb-10">
+        <p className="type-card-lead mt-6 text-pretty text-white/65 sm:mt-7">
           {item.tagline}
         </p>
 
-        <div className="mt-auto border-t border-white/[0.06] pt-6 sm:pt-7">
+        <div className="portfolio-card-outcome mt-6 rounded-r-lg py-3 pl-4 pr-4">
+          <p
+            className="type-label mb-1.5"
+            style={{ color: item.accent, opacity: 0.85 }}
+          >
+            Outcome
+          </p>
+          <p className="type-card-body text-pretty text-white/70">
+            {item.outcome}
+          </p>
+        </div>
+
+        <div className="mt-auto pt-7 sm:pt-8">
           <p className="type-label mb-4 text-white/30">What we delivered</p>
           <ul className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
             {item.delivered.map((entry) => (
@@ -236,6 +274,17 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
                   strokeWidth={2.25}
                 />
                 <span>{entry}</span>
+              </li>
+            ))}
+          </ul>
+
+          <ul className="mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-6">
+            {item.stack.map((tech) => (
+              <li
+                key={tech}
+                className="portfolio-card-tag rounded-full px-2.5 py-1 text-[0.6875rem] font-medium tracking-tight text-white/50"
+              >
+                {tech}
               </li>
             ))}
           </ul>

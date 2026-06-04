@@ -156,11 +156,12 @@ export default function SkillsMarquee() {
     );
   }
 
-  const skillLabels = skillRows.flat().map((skill) => skill.label).join(", ");
-
   return (
     <>
-      <p className="sr-only">Capabilities include: {skillLabels}.</p>
+      <p className="sr-only">
+        Our work spans the full AI product stack, from LLM and computer vision
+        systems to data engineering, ML infrastructure, and product UX.
+      </p>
       <div className="mx-auto w-full max-w-3xl sm:max-w-4xl" aria-hidden="true">
         <div className="skills-marquee-fade overflow-hidden py-1">
           <div className="flex flex-col gap-3">

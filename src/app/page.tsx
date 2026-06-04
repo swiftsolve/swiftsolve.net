@@ -12,6 +12,7 @@ import ProcessSection from "@/components/ProcessSection";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import Section from "@/components/Section";
 import Services from "@/components/Services";
+import TeamSection from "@/components/TeamSection";
 import TrustSection from "@/components/TrustSection";
 import HeroBackground from "@/components/HeroBackground";
 import {
@@ -19,8 +20,9 @@ import {
   ScrollStaggerItem,
 } from "@/components/ScrollReveal";
 
+const contactEmail = "hello@swiftsolve.com";
 const consultationMailto =
-  "mailto:hello@swiftsolve.com?subject=Project%20consultation%20request&body=Name:%0D%0ACompany:%0D%0AWhat%20you%27re%20building:%0D%0AData%20or%20systems%20involved:%0D%0ATarget%20timeline:%0D%0AProject%20stage%20or%20budget%20range:";
+  "mailto:hello@swiftsolve.com?subject=15-minute%20fit%20call%20request&body=Name:%0D%0ACompany:%0D%0AWhat%20you%27re%20building:%0D%0AData%20or%20systems%20involved:%0D%0ATarget%20timeline:%0D%0AProject%20stage%20or%20budget%20range:";
 
 export default function Home() {
   return (
@@ -48,7 +50,7 @@ export default function Home() {
             transition={{ delay: 0.95, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="type-headline max-w-3xl px-1 text-pretty text-white sm:px-0"
           >
-            Ship production AI products people actually use.
+            Build production AI software, not just demos.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -56,11 +58,10 @@ export default function Home() {
             transition={{ delay: 1.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="type-body max-w-2xl px-1 text-pretty text-center font-light text-white/50 sm:px-0"
           >
-            SwiftSolve designs, builds, and deploys AI applications that combine
-            reliable model infrastructure with polished product UX. From LLM
-            copilots and RAG systems to computer vision tools, automation
-            platforms, and ML infrastructure, we help teams move from AI concept
-            to production-ready software.
+            SwiftSolve helps startups and product teams design, build, and deploy
+            LLM, computer vision, automation, and ML infrastructure products that
+            real users can trust, taking validated AI ideas all the way to secure,
+            reliable software in production.
           </motion.p>
         </div>
 
@@ -74,7 +75,7 @@ export default function Home() {
             href={consultationMailto}
             className="type-caption flex min-h-11 items-center justify-center rounded-full bg-white px-6 py-2.5 font-medium text-black transition hover:bg-white/90"
           >
-            Book a project consultation
+            Book a 15-minute fit call
           </a>
           <a
             href="#portfolio"
@@ -128,6 +129,13 @@ export default function Home() {
       </Section>
 
       <Section
+        id="team"
+        className="snap-section snap-section-loose dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+      >
+        <TeamSection />
+      </Section>
+
+      <Section
         id="contact"
         className="snap-section dark-gradient flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
       >
@@ -144,30 +152,36 @@ export default function Home() {
               </ScrollStaggerItem>
               <ScrollStaggerItem>
                 <p className="type-body mb-4 text-muted">
-                  Tell us what you&apos;re trying to launch, automate, or
-                  improve. We&apos;ll help you clarify the use case, technical
-                  path, product scope, and what it would take to move from
-                  concept to production.
+                  Start with a free 15-minute fit call. We&apos;ll clarify your
+                  use case, the technical path, and what it would take to move
+                  from a validated idea to production, with no obligation to
+                  continue.
                 </p>
-                <p className="type-body mb-3 text-muted">
-                  In your message, include your company, what you&apos;re
-                  building, the data or systems involved, timeline, and project
-                  stage. We typically respond within two business days with next
-                  steps for a scoping conversation.
-                </p>
-                <p className="type-caption mb-10 text-white/40">
-                  Best fit: AI product builds, LLM/RAG systems, computer vision
-                  workflows, automation platforms, and ML infrastructure.
+                <p className="type-body mb-8 text-muted">
+                  Include your company, what you&apos;re building, the data or
+                  systems involved, your timeline, and project stage. We reply
+                  within two business days to schedule the call.
                 </p>
               </ScrollStaggerItem>
               <ScrollStaggerItem>
-                <a
-                  href={consultationMailto}
-                  className="type-caption inline-flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 font-medium text-black transition-all hover:brightness-110 sm:w-auto"
-                >
-                  <Mail className="h-4 w-4" strokeWidth={2} />
-                  Book a project consultation
-                </a>
+                <div className="flex flex-col items-center gap-4">
+                  <a
+                    href={consultationMailto}
+                    className="type-caption inline-flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 font-medium text-black transition-all hover:brightness-110 sm:w-auto"
+                  >
+                    <Mail className="h-4 w-4" strokeWidth={2} />
+                    Book a 15-minute fit call
+                  </a>
+                  <p className="type-caption text-white/40">
+                    Or email us directly at{" "}
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-white/70 underline decoration-white/20 underline-offset-4 transition hover:text-white hover:decoration-white/50"
+                    >
+                      {contactEmail}
+                    </a>
+                  </p>
+                </div>
               </ScrollStaggerItem>
             </ScrollStagger>
           </div>
