@@ -95,7 +95,7 @@ export default function Home() {
 
       <Section
         id="about"
-        className="snap-section section-glow flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section section-surface flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <AboutSection />
       </Section>
@@ -137,7 +137,7 @@ export default function Home() {
 
       <Section
         id="contact"
-        className="snap-section section-glow flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
+        className="snap-section section-surface flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
       >
         <div className="flex w-full flex-col items-center md:flex-1 md:justify-center">
           <div className="max-w-2xl text-center">
