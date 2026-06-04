@@ -42,7 +42,7 @@ export default function GoToTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 8 }}
           transition={{ duration: reduceMotion ? 0 : 0.25, ease }}
-          className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-4 z-40 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-black/60 text-white/60 backdrop-blur-md transition-colors hover:border-white/20 hover:bg-black/80 hover:text-accent sm:right-6 sm:h-10 sm:w-10"
+          className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-4 z-40 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/[0.1] bg-black/60 text-white/60 backdrop-blur-md transition-colors hover:border-white/20 hover:bg-black/80 hover:text-accent sm:right-6 sm:h-10 sm:w-10"
         >
           <ChevronUp className="h-4 w-4" strokeWidth={2} />
         </motion.button>
