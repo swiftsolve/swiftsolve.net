@@ -11,17 +11,17 @@
   --teal-deep: #14b8a6;
   --section-glow-bottom: radial-gradient(
     ellipse 80% 42% at 50% 100%,
-    rgba(112, 255, 216, 0.07) 0%,
+    rgba(112, 255, 216, 0.05) 0%,
     transparent 58%
   );
   --section-glow-top: radial-gradient(
     ellipse 85% 50% at 50% -12%,
-    rgba(255, 255, 255, 0.035) 0%,
+    rgba(255, 255, 255, 0.028) 0%,
     transparent 58%
   );
   --section-glow-top-mint: radial-gradient(
     ellipse 65% 38% at 50% 0%,
-    rgba(112, 255, 216, 0.045) 0%,
+    rgba(112, 255, 216, 0.032) 0%,
     transparent 55%
   );
 }
@@ -139,57 +139,18 @@ body {
   border: 0;
 }
 
-/* Section backgrounds (hero unchanged). Top + bottom glow are identical on every variant. */
-.section-gradient {
+/* Section backgrounds (hero unchanged). Shared top + bottom glow only. */
+.section-glow {
   background-color: #000000;
   background-image:
     var(--section-glow-bottom),
     var(--section-glow-top-mint),
-    var(--section-glow-top),
-    linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+    var(--section-glow-top);
 }
 
-.section-gradient-flat {
-  background-color: #000000;
-  background-image:
-    var(--section-glow-bottom),
-    var(--section-glow-top-mint),
-    var(--section-glow-top),
-    linear-gradient(180deg, #000000 0%, #080808 100%);
-}
-
-.section-gradient-accent {
-  background-color: #000000;
-  background-image:
-    var(--section-glow-bottom),
-    radial-gradient(
-      ellipse 55% 32% at 50% 52%,
-      rgba(56, 189, 248, 0.045) 0%,
-      transparent 68%
-    ),
-    var(--section-glow-top-mint),
-    var(--section-glow-top),
-    linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
-}
-
-/* Subtle hairline at the top edge to delineate adjacent sections. */
-.section-divider {
-  position: relative;
-}
-
-.section-divider::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.09) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
+/* Very subtle lift from pure black — alternates with plain sections for rhythm. */
+.section-surface {
+  background-color: #040404;
 }
 
 .portfolio-card {
