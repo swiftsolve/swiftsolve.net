@@ -209,6 +209,14 @@ const AUTOPLAY_MS = 5000;
 
 const slideEase = [0.22, 1, 0.36, 1] as const;
 
+const allItems = pages.flat();
+
+const mobileSlideVariants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 48 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -48 }),
+};
+
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const Icon = item.icon;
 
@@ -224,7 +232,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             aria-hidden
           >
             <Icon
-              className="relative h-[1.35rem] w-[1.35rem] transition duration-300 group-hover:scale-105 sm:h-6 sm:w-6"
+              className="relative h-[1.625rem] w-[1.625rem] transition duration-300 sm:h-[1.875rem] sm:w-[1.875rem]"
               strokeWidth={1.5}
             />
           </div>
@@ -262,7 +270,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
         <div className="mt-auto pt-7 sm:pt-8">
           <p className="type-label mb-4 text-white/30">What we delivered</p>
-          <ul className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2">
             {item.delivered.map((entry) => (
               <li
                 key={entry}
@@ -296,11 +304,19 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
 export default function Portfolio() {
   const [page, setPage] = useState(0);
+  const [mobileIndex, setMobileIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(1);
   const pausedRef = useRef(false);
   const totalPages = pages.length;
+  const totalItems = allItems.length;
 
-  const go = (next: number) => {
+  const goPage = (next: number) => {
     setPage((next + totalPages) % totalPages);
+  };
+
+  const goMobile = (delta: number) => {
+    setSlideDirection(delta > 0 ? 1 : -1);
+    setMobileIndex((index) => (index + delta + totalItems) % totalItems);
   };
 
   useEffect(() => {
@@ -311,12 +327,17 @@ export default function Portfolio() {
 
     const timer = window.setInterval(() => {
       if (!pausedRef.current) {
-        setPage((p) => (p + 1) % totalPages);
+        if (window.matchMedia("(max-width: 639px)").matches) {
+          setSlideDirection(1);
+          setMobileIndex((index) => (index + 1) % totalItems);
+        } else {
+          setPage((p) => (p + 1) % totalPages);
+        }
       }
     }, AUTOPLAY_MS);
 
     return () => window.clearInterval(timer);
-  }, [totalPages]);
+  }, [totalPages, totalItems]);
 
   return (
     <div
@@ -334,16 +355,47 @@ export default function Portfolio() {
         pausedRef.current = false;
       }}
     >
-      <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+      <div className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-10 sm:text-left">
         <ScrollHeadline className="type-headline">
           Selected work
         </ScrollHeadline>
-        <ScrollReveal delay={0.1} y={24} className="sm:max-w-md sm:text-right">
+        <ScrollReveal
+          delay={0.1}
+          y={24}
+          className="sm:max-w-md sm:text-right"
+        >
           <p className="type-body text-sm leading-relaxed text-muted sm:text-[0.9375rem]">
             Case studies across finance, healthcare, apparel, infrastructure,
             and ML infrastructure.
           </p>
         </ScrollReveal>
+      </div>
+
+      <div className="overflow-hidden sm:hidden">
+        <AnimatePresence mode="wait" custom={slideDirection}>
+          <motion.div
+            key={mobileIndex}
+            custom={slideDirection}
+            variants={mobileSlideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: slideEase }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.12}
+            onDragEnd={(_, { offset, velocity }) => {
+              if (offset.x < -50 || velocity.x < -400) {
+                goMobile(1);
+              } else if (offset.x > 50 || velocity.x > 400) {
+                goMobile(-1);
+              }
+            }}
+            style={{ touchAction: "pan-y" }}
+          >
+            <PortfolioCard item={allItems[mobileIndex]} />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <AnimatePresence mode="wait">
@@ -353,7 +405,7 @@ export default function Portfolio() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.35, ease: slideEase }}
-          className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 sm:gap-7 lg:gap-10"
+          className="hidden items-stretch gap-6 sm:grid sm:grid-cols-2 sm:gap-7 lg:gap-10"
         >
           {pages[page].map((item) => (
             <PortfolioCard key={item.title} item={item} />
@@ -364,32 +416,72 @@ export default function Portfolio() {
       <div className="mt-8 flex items-center justify-center gap-1 sm:mt-10 sm:justify-end">
         <button
           type="button"
-          onClick={() => go(page - 1)}
-          aria-label="Previous page"
-          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
+          onClick={() => goMobile(-1)}
+          aria-label="Previous project"
+          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:hidden"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => go(i)}
-            aria-label={`Page ${i + 1}`}
-            className={`type-caption flex h-11 w-11 items-center justify-center rounded-full transition ${
-              page === i
-                ? "bg-white/10 text-foreground"
-                : "text-muted hover:bg-white/5 hover:text-foreground"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
         <button
           type="button"
-          onClick={() => go(page + 1)}
+          onClick={() => goPage(page - 1)}
+          aria-label="Previous page"
+          className="type-caption hidden h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:flex"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+
+        <div className="flex max-w-[min(100%,14rem)] items-center gap-1.5 overflow-x-auto px-1 sm:hidden">
+          {allItems.map((item, i) => (
+            <button
+              key={item.title}
+              type="button"
+              onClick={() => {
+                setSlideDirection(i > mobileIndex ? 1 : -1);
+                setMobileIndex(i);
+              }}
+              aria-label={`${item.title}, project ${i + 1} of ${totalItems}`}
+              aria-current={mobileIndex === i ? "true" : undefined}
+              className={`h-2 shrink-0 rounded-full transition-all ${
+                mobileIndex === i
+                  ? "w-5 bg-white"
+                  : "w-2 bg-white/25 hover:bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="hidden items-center gap-1 sm:flex">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => goPage(i)}
+              aria-label={`Page ${i + 1}`}
+              className={`type-caption flex h-11 w-11 items-center justify-center rounded-full transition ${
+                page === i
+                  ? "bg-white/10 text-foreground"
+                  : "text-muted hover:bg-white/5 hover:text-foreground"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => goMobile(1)}
+          aria-label="Next project"
+          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:hidden"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => goPage(page + 1)}
           aria-label="Next page"
-          className="type-caption flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground"
+          className="type-caption hidden h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:flex"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

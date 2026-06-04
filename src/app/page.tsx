@@ -15,6 +15,7 @@ import Section from "@/components/Section";
 import Services from "@/components/Services";
 import TeamSection from "@/components/TeamSection";
 import TrustSection from "@/components/TrustSection";
+import GoToTop from "@/components/GoToTop";
 import HeroBackground from "@/components/HeroBackground";
 import {
   ScrollStagger,
@@ -89,6 +90,7 @@ export default function Home() {
     <HeroInViewProvider targetRef={heroRef}>
       <div className="bg-black">
         <Navbar />
+        <GoToTop />
 
         <HeroScrollLayer
           sectionRef={heroRef}
@@ -149,10 +151,11 @@ export default function Home() {
 
         <Section
           id="contact"
-          className="snap-section section-surface flex flex-col items-center justify-center gap-10 px-4 py-14 pb-[max(2rem,env(safe-area-inset-bottom))] md:gap-12 md:px-12 md:py-16"
+          className="snap-section section-surface flex flex-col py-14 md:min-h-[100dvh] md:py-0"
         >
-          <div className="max-w-2xl text-center">
-            <ScrollStagger stagger={0.12} once>
+          <div className="flex w-full flex-1 flex-col items-center justify-center px-4 py-6 md:px-12 md:py-12">
+            <div className="max-w-2xl text-center">
+              <ScrollStagger stagger={0.12} once>
                 <ScrollStaggerItem>
                   <p className="type-label mb-4 text-accent">Contact</p>
                 </ScrollStaggerItem>
@@ -194,9 +197,10 @@ export default function Home() {
                     </p>
                   </div>
                 </ScrollStaggerItem>
-            </ScrollStagger>
+              </ScrollStagger>
+            </div>
           </div>
-          <footer className="type-caption shrink-0 border-t border-white/[0.06] pt-6 text-center text-white/35">
+          <footer className="type-caption w-full shrink-0 border-t border-white/[0.06] pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center text-white/35">
             © {new Date().getFullYear()} SwiftSolve. All rights reserved.
           </footer>
         </Section>

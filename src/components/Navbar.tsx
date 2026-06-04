@@ -33,17 +33,15 @@ export default function Navbar() {
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8, ease }}
-        className="fixed inset-x-0 top-0 z-50 pt-[max(0.75rem,env(safe-area-inset-top))]"
+        className="fixed inset-x-0 top-0 z-50 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 md:pb-4"
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 border-b backdrop-blur-md"
-          style={{
-            opacity: navScrim,
-            backgroundColor: "rgba(0, 0, 0, 0.4)",
-            borderColor: "rgba(255, 255, 255, 0.06)",
-          }}
-        />
+        {navScrim > 0 && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 border-b border-white/[0.06] bg-black/40 backdrop-blur-md"
+            style={{ opacity: navScrim }}
+          />
+        )}
         <div className="relative z-10 flex h-14 items-center justify-between px-4 sm:px-6 md:h-16 md:px-12">
           <a
             href="#"

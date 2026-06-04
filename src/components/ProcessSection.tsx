@@ -56,12 +56,13 @@ export default function ProcessSection() {
           const Icon = step.icon;
           return (
             <ScrollStaggerItem key={step.title}>
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-accent">
-                <Icon className="h-5 w-5" strokeWidth={1.5} />
+              <div className="mb-3 flex items-center gap-2.5">
+                <Icon
+                  className="h-4 w-4 shrink-0 text-accent"
+                  strokeWidth={1.5}
+                />
+                <p className="type-label text-accent/80">Step {index + 1}</p>
               </div>
-              <p className="type-label mb-3 text-accent/80">
-                Step {index + 1}
-              </p>
               <h3 className="type-title mb-2">{step.title}</h3>
               <p className="type-body text-muted">{step.description}</p>
             </ScrollStaggerItem>
