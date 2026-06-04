@@ -17,150 +17,164 @@ import {
   Server,
   ChevronLeft,
   ChevronRight,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 
-type CardTheme = {
-  base: string;
-  glow: string;
-  highlight: string;
-  icon: string;
-  iconHover: string;
-};
-
 type PortfolioItem = {
   title: string;
-  description: string;
-  detail: string;
+  tagline: string;
+  solution: string;
+  delivered: string[];
+  status: string;
+  domain: string;
   icon: LucideIcon;
-  theme: CardTheme;
+  accent: string;
 };
 
 const pages: PortfolioItem[][] = [
   [
     {
       title: "SwiftWallet",
-      description:
-        "Intelligent personal finance platform with AI-driven insights and a polished dashboard experience.",
-      detail:
-        "Automated categorization, forecast modeling, and natural-language access wrapped in clear, privacy-conscious UI engineered for everyday use.",
+      tagline:
+        "AI personal finance dashboard for cash-flow forecasting and natural-language insights.",
+      solution:
+        "Privacy-first finance UI with categorized spending, forecast models, and plain-English answers about transaction data.",
+      delivered: [
+        "Transaction ingestion & categorization",
+        "Forecast modeling & trend analysis",
+        "Conversational query interface",
+        "Dashboard UX & app architecture",
+      ],
+      status: "Shipped product",
+      domain: "Finance",
       icon: Wallet,
-      theme: {
-        base: "#0a100f",
-        glow: "rgba(52,211,153,0.14)",
-        highlight: "rgba(234,179,8,0.06)",
-        icon: "rgba(110,231,183,0.35)",
-        iconHover: "rgba(110,231,183,0.65)",
-      },
+      accent: "#6ee7b7",
     },
     {
       title: "Automated Garment Measurement",
-      description:
-        "Vision-based measurement pipeline for apparel manufacturers and e-commerce fit workflows.",
-      detail:
-        "Delivers consistent body and garment dimensions from standard photos, replacing manual measurement with production-ready detection and grading logic.",
+      tagline:
+        "Computer vision pipeline for consistent apparel measurements from standard photos.",
+      solution:
+        "Landmark detection from standard photos, measurement estimates, and an operator review UI for apparel and e-commerce fit teams.",
+      delivered: [
+        "Image capture & detection pipeline",
+        "Measurement & grading logic",
+        "Operator QA review interface",
+        "API integration & deployment",
+      ],
+      status: "Client project",
+      domain: "Apparel",
       icon: ScanLine,
-      theme: {
-        base: "#0f100a",
-        glow: "rgba(190,242,100,0.12)",
-        highlight: "rgba(250,204,21,0.05)",
-        icon: "rgba(217,249,157,0.35)",
-        iconHover: "rgba(217,249,157,0.65)",
-      },
-    },
-    {
-      title: "On-demand GPU Scaling",
-      description:
-        "Elastic GPU infrastructure for high-volume ML inference and training workloads.",
-      detail:
-        "Kubernetes-orchestrated scaling that responds to queue depth in real time, optimizing utilization and controlling cloud spend without sacrificing latency.",
-      icon: Cpu,
-      theme: {
-        base: "#0a0c14",
-        glow: "rgba(99,102,241,0.14)",
-        highlight: "rgba(56,189,248,0.08)",
-        icon: "rgba(129,140,248,0.35)",
-        iconHover: "rgba(129,140,248,0.7)",
-      },
+      accent: "#bef264",
     },
   ],
   [
     {
-      title: "Bengali OCR + Triton",
-      description:
-        "Enterprise OCR service for Bengali script, built for mixed document types and high-throughput deployment.",
-      detail:
-        "GPU-accelerated inference via NVIDIA Triton delivers sub-second response times across digital and scanned inputs at production scale.",
-      icon: Languages,
-      theme: {
-        base: "#0a1012",
-        glow: "rgba(45,212,191,0.13)",
-        highlight: "rgba(251,191,36,0.06)",
-        icon: "rgba(94,234,212,0.35)",
-        iconHover: "rgba(94,234,212,0.65)",
-      },
+      title: "On-demand GPU Scaling",
+      tagline:
+        "Queue-driven GPU autoscaling for ML inference and training workloads.",
+      solution:
+        "Queue-driven Kubernetes GPU scaling that cuts idle compute spend while preserving latency for inference and training workloads.",
+      delivered: [
+        "Kubernetes & GPU scheduling",
+        "Queue-depth autoscaling",
+        "Monitoring & deploy automation",
+        "Cost-control architecture",
+      ],
+      status: "Production deployment",
+      domain: "ML Infrastructure",
+      icon: Cpu,
+      accent: "#a5b4fc",
     },
     {
+      title: "Bengali OCR + Triton",
+      tagline:
+        "Enterprise OCR service for Bengali script at production throughput.",
+      solution:
+        "GPU-accelerated Bengali OCR on NVIDIA Triton for mixed documents at sub-second throughput in production.",
+      delivered: [
+        "Document preprocessing & OCR serving",
+        "NVIDIA Triton deployment",
+        "Production throughput tuning",
+        "Document workflow APIs",
+      ],
+      status: "Production deployment",
+      domain: "Document AI",
+      icon: Languages,
+      accent: "#5eead4",
+    },
+  ],
+  [
+    {
       title: "Medical Image Processing",
-      description:
-        "Clinical imaging tooling with radiologist-first review interfaces for 3D volume analysis.",
-      detail:
-        "Processes DICOM data into actionable views with automated anomaly highlighting, designed to fit naturally into existing radiology workflows.",
+      tagline:
+        "Clinical imaging tooling with radiologist-first review for 3D volumes.",
+      solution:
+        "DICOM-to-insight pipeline with anomaly highlighting and a radiologist-first review UI for existing clinical workflows.",
+      delivered: [
+        "DICOM ingestion & 3D processing",
+        "Anomaly detection & highlighting",
+        "Radiologist review interface",
+        "Clinical workflow integration",
+      ],
+      status: "Client project",
+      domain: "Healthcare",
       icon: ScanHeart,
-      theme: {
-        base: "#0a0f14",
-        glow: "rgba(56,189,248,0.13)",
-        highlight: "rgba(34,211,238,0.07)",
-        icon: "rgba(125,211,252,0.35)",
-        iconHover: "rgba(125,211,252,0.7)",
-      },
+      accent: "#7dd3fc",
     },
     {
       title: "Pavement Crack Detection",
-      description:
-        "Infrastructure intelligence for automated road condition assessment and maintenance planning.",
-      detail:
-        "Aerial imagery analysis that detects cracking, scores severity, and surfaces priority routes, giving municipal teams data-driven inputs for capital planning.",
+      tagline:
+        "Aerial imagery analysis for road condition assessment and maintenance planning.",
+      solution:
+        "Aerial crack detection, severity scoring, and route prioritization for municipal maintenance and capital planning teams.",
+      delivered: [
+        "Aerial imagery ingestion",
+        "Crack detection & severity scoring",
+        "Operator review dashboard",
+        "Maintenance planning reports",
+      ],
+      status: "Client project",
+      domain: "Infrastructure",
       icon: Construction,
-      theme: {
-        base: "#100e0a",
-        glow: "rgba(251,146,60,0.12)",
-        highlight: "rgba(168,162,158,0.07)",
-        icon: "rgba(253,186,116,0.35)",
-        iconHover: "rgba(253,186,116,0.65)",
-      },
+      accent: "#fdba74",
     },
   ],
   [
     {
       title: "Data Stories",
-      description:
-        "Design-led analytics experiences with scroll-native reporting for decision-makers.",
-      detail:
-        "Interactive narratives connect live data to clear conclusions, giving executives and operators a beautiful way to explore trends without analyst dependency.",
+      tagline:
+        "Scroll-native analytics experiences for executive and operational teams.",
+      solution:
+        "Scroll-native reporting that connects live data to conclusions, so teams explore trends without analyst bottlenecks.",
+      delivered: [
+        "Live data integration",
+        "Scroll-native reporting UX",
+        "Executive & operator views",
+        "Self-serve trend exploration",
+      ],
+      status: "Shipped product",
+      domain: "Analytics",
       icon: BarChart3,
-      theme: {
-        base: "#100a0c",
-        glow: "rgba(251,113,133,0.12)",
-        highlight: "rgba(248,113,113,0.07)",
-        icon: "rgba(253,164,175,0.35)",
-        iconHover: "rgba(253,164,175,0.65)",
-      },
+      accent: "#fda4af",
     },
     {
       title: "Server Resource Monitoring",
-      description:
-        "Unified observability for distributed compute and application infrastructure at scale.",
-      detail:
-        "Real-time metrics, alert orchestration, and historical trend analysis across clusters, supporting proactive capacity planning and incident response.",
+      tagline:
+        "Unified observability for distributed compute and application infrastructure.",
+      solution:
+        "Real-time cluster metrics, alert orchestration, and trend analysis for proactive capacity planning and incident response.",
+      delivered: [
+        "Distributed metrics collection",
+        "Alert orchestration & escalation",
+        "Historical trend dashboards",
+        "Capacity planning views",
+      ],
+      status: "Production deployment",
+      domain: "Platform Ops",
       icon: Server,
-      theme: {
-        base: "#0a100e",
-        glow: "rgba(74,222,128,0.11)",
-        highlight: "rgba(56,189,248,0.07)",
-        icon: "rgba(134,239,172,0.35)",
-        iconHover: "rgba(134,239,172,0.65)",
-      },
+      accent: "#86efac",
     },
   ],
 ];
@@ -168,6 +182,68 @@ const pages: PortfolioItem[][] = [
 const AUTOPLAY_MS = 5000;
 
 const slideEase = [0.22, 1, 0.36, 1] as const;
+
+function PortfolioCard({ item }: { item: PortfolioItem }) {
+  const Icon = item.icon;
+
+  return (
+    <article
+      className="portfolio-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.07]"
+      style={{ "--card-accent": item.accent } as CSSProperties}
+    >
+      <div className="relative flex flex-1 flex-col p-7 sm:p-8">
+        <div className="flex items-center gap-4 sm:gap-5">
+          <div
+            className="portfolio-card-icon-tile relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-[3.25rem] sm:w-[3.25rem]"
+            aria-hidden
+          >
+            <Icon
+              className="relative h-[1.35rem] w-[1.35rem] transition duration-300 group-hover:scale-105 sm:h-6 sm:w-6"
+              strokeWidth={1.5}
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="type-label flex flex-wrap items-center gap-x-2 gap-y-1 text-white/35">
+              <span style={{ color: item.accent, opacity: 0.9 }}>
+                {item.domain}
+              </span>
+              <span className="text-white/20" aria-hidden>
+                ·
+              </span>
+              <span>{item.status}</span>
+            </p>
+            <h3 className="type-card-title mt-1.5 text-balance text-white">
+              {item.title}
+            </h3>
+          </div>
+        </div>
+
+        <p className="type-card-lead mt-6 mb-8 text-pretty text-white/65 sm:mt-7 sm:mb-10">
+          {item.tagline}
+        </p>
+
+        <div className="mt-auto border-t border-white/[0.06] pt-6 sm:pt-7">
+          <p className="type-label mb-4 text-white/30">What we delivered</p>
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+            {item.delivered.map((entry) => (
+              <li
+                key={entry}
+                className="type-card-body flex items-start gap-2.5 text-white/55"
+              >
+                <Check
+                  className="mt-[0.3rem] h-3.5 w-3.5 shrink-0 opacity-70"
+                  style={{ color: item.accent }}
+                  strokeWidth={2.25}
+                />
+                <span>{entry}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function Portfolio() {
   const [page, setPage] = useState(0);
@@ -195,7 +271,7 @@ export default function Portfolio() {
 
   return (
     <div
-      className="w-full max-w-6xl"
+      className="w-full max-w-7xl"
       onMouseEnter={() => {
         pausedRef.current = true;
       }}
@@ -209,14 +285,14 @@ export default function Portfolio() {
         pausedRef.current = false;
       }}
     >
-      <div className="mb-8 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+      <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
         <ScrollHeadline className="type-headline">
-          Portfolio
+          Selected work
         </ScrollHeadline>
-        <ScrollReveal delay={0.1} y={24} className="sm:max-w-xs sm:text-right">
-          <p className="type-caption text-muted">
-            Production AI across finance, healthcare, and infrastructure,
-            built for real users.
+        <ScrollReveal delay={0.1} y={24} className="sm:max-w-md sm:text-right">
+          <p className="type-body text-sm leading-relaxed text-muted sm:text-[0.9375rem]">
+            Case studies across finance, healthcare, apparel, infrastructure,
+            and ML infrastructure.
           </p>
         </ScrollReveal>
       </div>
@@ -228,63 +304,11 @@ export default function Portfolio() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.35, ease: slideEase }}
-          className={`grid items-stretch gap-5 sm:gap-7 ${
-            pages[page].length === 2
-              ? "grid-cols-1 sm:grid-cols-2"
-              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          }`}
+          className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 sm:gap-7 lg:gap-10"
         >
-          {pages[page].map((item) => {
-            const Icon = item.icon;
-            return (
-              <article
-                key={item.title}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-white/[0.14]"
-                style={
-                  {
-                    "--card-icon": item.theme.icon,
-                    "--card-icon-hover": item.theme.iconHover,
-                  } as CSSProperties
-                }
-              >
-                <div
-                  className="relative flex h-52 shrink-0 items-center justify-center overflow-hidden border-b border-white/[0.05] md:h-56"
-                  style={{ backgroundColor: item.theme.base }}
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `radial-gradient(ellipse at 50% 115%, ${item.theme.glow}, transparent 70%)`,
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `radial-gradient(ellipse at 50% -10%, ${item.theme.highlight}, transparent 55%)`,
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0 opacity-35"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-                      backgroundSize: "32px 32px",
-                    }}
-                  />
-                  <Icon
-                    className="relative h-14 w-14 text-[var(--card-icon)] transition duration-300 group-hover:scale-[1.04] group-hover:text-[var(--card-icon-hover)] md:h-16 md:w-16"
-                    strokeWidth={1.25}
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
-                  <h3 className="type-title mb-2 sm:mb-3">{item.title}</h3>
-                  <p className="type-caption text-pretty text-muted">
-                    {item.description} {item.detail}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
+          {pages[page].map((item) => (
+            <PortfolioCard key={item.title} item={item} />
+          ))}
         </motion.div>
       </AnimatePresence>
 

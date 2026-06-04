@@ -3,10 +3,10 @@
 import {
   Bot,
   Workflow,
-  Network,
   ScanEye,
   BrainCircuit,
   Database,
+  Layout,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -22,40 +22,40 @@ const services: {
   icon: LucideIcon;
 }[] = [
   {
-    title: "AI Products",
+    title: "AI Product Builds",
     description:
-      "End-to-end development for AI-native applications: product discovery, UX and interface design, model integration, and launch, with every screen tested against real user workflows.",
+      "End-to-end design and development for AI-native applications, from product discovery and UX to model integration, backend systems, deployment, and launch.",
     icon: Bot,
   },
   {
-    title: "Automation",
+    title: "LLM, RAG & Agent Systems",
     description:
-      "Intelligent process automation with clear operator interfaces, reducing manual overhead while keeping humans in control through thoughtful, transparent UX.",
-    icon: Workflow,
-  },
-  {
-    title: "Integration",
-    description:
-      "Architecture that unifies models, APIs, and data sources into cohesive systems with dashboards and touchpoints people can trust and navigate.",
-    icon: Network,
-  },
-  {
-    title: "Computer Vision",
-    description:
-      "Perception systems with review interfaces built for operators: detection, recognition, and visual understanding engineered for real environments and daily use.",
-    icon: ScanEye,
-  },
-  {
-    title: "LLM Systems",
-    description:
-      "Domain-specific language intelligence with copilot experiences designed for your workflows: RAG pipelines, agents, and interfaces grounded in your content and policies.",
+      "Custom copilots, retrieval-augmented generation, workflow agents, document intelligence, and domain-specific language systems grounded in your data and policies.",
     icon: BrainCircuit,
   },
   {
-    title: "Data Platforms",
+    title: "Computer Vision Products",
     description:
-      "Ingestion, warehousing, and analytics foundations, plus reporting and exploration UI, so every AI initiative runs on timely, governed, analysis-ready data.",
+      "Detection, measurement, recognition, visual QA, and operator review tools built for real-world environments and production workflows.",
+    icon: ScanEye,
+  },
+  {
+    title: "AI Automation Platforms",
+    description:
+      "Human-in-the-loop automation for repetitive, document-heavy, or decision-heavy processes, with clear interfaces for review, approval, and exception handling.",
+    icon: Workflow,
+  },
+  {
+    title: "Data & ML Infrastructure",
+    description:
+      "Data pipelines, APIs, analytics foundations, MLOps, inference infrastructure, GPU scaling, monitoring, and cloud-native deployment.",
     icon: Database,
+  },
+  {
+    title: "Product UX for AI Systems",
+    description:
+      "Interfaces that make AI understandable, controllable, and useful, including dashboards, review queues, prompt workflows, feedback loops, and admin tools.",
+    icon: Layout,
   },
 ];
 
@@ -64,18 +64,19 @@ export default function Services() {
     <div className="max-w-5xl w-full">
       <ScrollReveal y={28}>
         <p className="type-label mb-4 text-center text-accent">
-          Services
+          How we help
         </p>
       </ScrollReveal>
 
       <ScrollHeadline className="type-headline mb-5 text-center">
-        Built for production. Designed for people.
+        Engagements mapped to real buying needs
       </ScrollHeadline>
 
       <ScrollReveal y={24} className="mb-10 text-center sm:mb-12 md:mb-14">
         <p className="type-body mx-auto max-w-2xl px-1 text-pretty text-muted sm:px-0">
-          Full-stack AI capabilities paired with product design discipline, so
-          what you ship looks as refined as it performs.
+          Whether you need a full product build, a production LLM workflow, or
+          the infrastructure to scale inference, each service is scoped around
+          an outcome your team can ship and measure.
         </p>
       </ScrollReveal>
 

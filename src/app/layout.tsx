@@ -8,9 +8,9 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "SwiftSolve | AI Product Studio",
+  title: "SwiftSolve | AI Product Studio for LLM, Computer Vision & ML Applications",
   description:
-    "SwiftSolve builds intelligent products with exceptional UI: production AI, thoughtful interaction design, and ML infrastructure for teams that care how software feels and performs.",
+    "SwiftSolve designs and builds production-ready AI products, including LLM systems, RAG pipelines, computer vision tools, automation platforms, data infrastructure, and polished product interfaces.",
 };
 
 export const viewport = {

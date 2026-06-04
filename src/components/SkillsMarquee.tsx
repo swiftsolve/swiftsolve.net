@@ -156,19 +156,24 @@ export default function SkillsMarquee() {
     );
   }
 
+  const skillLabels = skillRows.flat().map((skill) => skill.label).join(", ");
+
   return (
-    <div className="mx-auto w-full max-w-3xl sm:max-w-4xl">
-      <div className="skills-marquee-fade overflow-hidden py-1">
-        <div className="flex flex-col gap-3">
-          {skillRows.map((row, rowIndex) => (
-            <MarqueeRow
-              key={rowIndex}
-              row={row}
-              direction={rowIndex % 2 === 0 ? "right" : "left"}
-            />
-          ))}
+    <>
+      <p className="sr-only">Capabilities include: {skillLabels}.</p>
+      <div className="mx-auto w-full max-w-3xl sm:max-w-4xl" aria-hidden="true">
+        <div className="skills-marquee-fade overflow-hidden py-1">
+          <div className="flex flex-col gap-3">
+            {skillRows.map((row, rowIndex) => (
+              <MarqueeRow
+                key={rowIndex}
+                row={row}
+                direction={rowIndex % 2 === 0 ? "right" : "left"}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

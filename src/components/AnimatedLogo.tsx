@@ -57,15 +57,15 @@ function Word({
 
 export default function AnimatedLogo() {
   return (
-    <motion.h1
+    <motion.div
       initial={{ opacity: 0, scale: 0.94, filter: "blur(4px)" }}
       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="relative z-10 inline-block w-fit max-w-full text-[clamp(2.5rem,11vw,8rem)] font-semibold tracking-tight leading-none select-none"
-      aria-label="SwiftSolve"
+      aria-hidden="true"
     >
       <Word text="Swift" baseDelay={0.3} className="logo-wordmark" />
       <Word text="Solve" baseDelay={0.72} className="logo-wordmark" />
-    </motion.h1>
+    </motion.div>
   );
 }
