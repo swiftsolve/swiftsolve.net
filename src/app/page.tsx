@@ -88,56 +88,56 @@ export default function Home() {
 
       <Section
         id="problem"
-        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section section-divider flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <ProblemSection />
       </Section>
 
       <Section
         id="about"
-        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section section-divider section-gradient-flat flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <AboutSection />
       </Section>
 
       <Section
         id="portfolio"
-        className="snap-section snap-section-loose dark-gradient-portfolio flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section snap-section-loose section-divider section-gradient-accent flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <Portfolio />
       </Section>
 
       <Section
         id="services"
-        className="snap-section snap-section-loose dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section snap-section-loose section-divider section-gradient-flat flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <Services />
       </Section>
 
       <Section
         id="process"
-        className="snap-section dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section section-divider flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <ProcessSection />
       </Section>
 
       <Section
         id="trust"
-        className="snap-section dark-gradient-portfolio flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section section-divider section-gradient-accent flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <TrustSection />
       </Section>
 
       <Section
         id="team"
-        className="snap-section snap-section-loose dark-gradient-alt flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
+        className="snap-section snap-section-loose section-divider section-gradient-flat flex flex-col items-center justify-center px-4 py-14 md:px-12 md:py-0"
       >
         <TeamSection />
       </Section>
 
       <Section
         id="contact"
-        className="snap-section dark-gradient flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
+        className="snap-section section-divider section-gradient flex flex-col justify-center px-4 py-14 pb-[max(4rem,env(safe-area-inset-bottom))] md:min-h-[100dvh] md:px-12 md:py-0"
       >
         <div className="flex w-full flex-col items-center md:flex-1 md:justify-center">
           <div className="max-w-2xl text-center">
