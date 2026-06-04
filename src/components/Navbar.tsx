@@ -14,10 +14,12 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { visible: isHeroInView } = useHeroInView();
-  const wasHeroInView = useRef(false);
+  const { pastHero } = useHeroInView();
+  const wasAtHero = useRef(true);
   const hasLeftHero = useRef(false);
   const [entranceKey, setEntranceKey] = useState(0);
 
@@ -25,14 +27,14 @@ export default function Navbar() {
   const navVisible = { opacity: 1, y: 0 };
 
   useEffect(() => {
-    if (!isHeroInView && wasHeroInView.current) {
+    if (pastHero && wasAtHero.current) {
       hasLeftHero.current = true;
     }
-    if (isHeroInView && hasLeftHero.current) {
+    if (!pastHero && hasLeftHero.current) {
       setEntranceKey((key) => key + 1);
     }
-    wasHeroInView.current = isHeroInView;
-  }, [isHeroInView]);
+    wasAtHero.current = !pastHero;
+  }, [pastHero]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -47,13 +49,17 @@ export default function Navbar() {
         key={entranceKey}
         initial={navHidden}
         animate={navVisible}
-        transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-black/40 backdrop-blur-md pt-[max(0.75rem,env(safe-area-inset-top))]"
+        transition={{ duration: 0.6, delay: 0.8, ease }}
+        className={`fixed inset-x-0 top-0 z-50 pt-[max(0.75rem,env(safe-area-inset-top))] transition-[background-color,border-color,backdrop-filter,-webkit-backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          pastHero
+            ? "border-b border-white/[0.06] bg-black/40 backdrop-blur-md"
+            : "border-b border-transparent bg-transparent backdrop-blur-none"
+        }`}
       >
-        <div className="flex items-center justify-between px-4 py-3 sm:px-6 md:px-12 md:py-4">
+        <div className="flex h-14 items-center justify-between px-4 sm:px-6 md:h-16 md:px-12">
           <a
             href="#"
-            className="type-caption font-semibold tracking-tight transition-opacity hover:opacity-80 logo-wordmark"
+            className="logo-wordmark shrink-0 text-lg font-semibold leading-none tracking-tight transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-80 md:text-xl"
             onClick={() => setOpen(false)}
           >
             SwiftSolve
@@ -77,7 +83,7 @@ export default function Navbar() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((prev) => !prev)}
-            className="flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:hidden"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted transition hover:bg-white/5 hover:text-foreground sm:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -98,7 +104,7 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.25, ease }}
               className="flex min-h-full flex-col items-center justify-center gap-2 px-6 pb-[env(safe-area-inset-bottom)] pt-24"
               onClick={(event) => event.stopPropagation()}
             >
